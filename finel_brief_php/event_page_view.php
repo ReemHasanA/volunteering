@@ -1,3 +1,34 @@
+<?php
+
+@include 'config.php';
+
+$id = "";
+$name = "";
+$events_id = "";
+$title = "";
+$description = "";
+$created_at  = "";
+
+$errormessage = "";
+$sucessmessage = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    if (!isset($_GET['id'])) {
+        header("location:admin_page.php");
+        exit;
+    }
+    $id = $_GET['id'];
+
+    $sql = "SELECT users.id,users.name,history.events_id,events.title,events.description,events.created_at FROM users INNER JOIN history ON users.id = history.id JOIN events ON history.events_id=events.events_id WHERE events.events_id=$id";
+    $result = $conn->query($sql);
+
+    if (!$result) {
+        header("location:admin_page.php");
+        exit;
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
